@@ -1,0 +1,75 @@
+plugins {
+	id 'java'
+	id 'java-library'
+	id 'maven-publish'
+	id 'org.springframework.boot' version '3.4.0' apply false
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.boot:spring-boot-dependencies:3.4.0"
+	}
+}
+
+group = 'com.practice'  // 그룹 ID
+version = '1.0.0'      // 버전
+
+java {
+	sourceCompatibility = '17'
+	targetCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+	publishing {
+		publications {
+			mavenJava(MavenPublication) {
+				groupId = 'com.practice'          // 그룹 ID
+				artifactId = 'api-response-library'    // 아티팩트 ID (라이브러리 이름)
+				version = '1.0.0'                      // 버전
+
+				artifact jar// 자바 컴포넌트에서 아티팩트를 생성
+			}
+		}
+
+		repositories {
+			maven {
+				mavenLocal()  // 로컬 Maven 저장소로 배포
+			}
+		}
+	}
+
+
+//
+//bootJar {
+//	enabled = false  // 실행 가능한 JAR 비활성화
+//}
+
+jar {
+	enabled = true  // 일반 JAR 생성 활성화
+}
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// 로그 라이브러리 사용을 위해 추가
+	annotationProcessor("org.projectlombok:lombok")
+	compileOnly("org.projectlombok:lombok")
+
+	// Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.mockito:mockito-core'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+
+
+
+
